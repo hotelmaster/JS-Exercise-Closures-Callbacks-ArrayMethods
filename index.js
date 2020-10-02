@@ -28,26 +28,41 @@ function processFirstItem(stringList, callback) {
  * 
  * 1. What is the difference between counter1 and counter2?
  * 
+ * A: counter1 has closure because when invoking the variable counter1, counterMaker will return the actual count after it increments.
+ *    However, counter2 does not have closure because after calling the function the memory will be lost. The initialization of the counter
+ *    variable variable should be local, yet we would invoke the nested function.
+ * 
  * 2. Which of the two uses a closure? How can you tell?
  * 
- * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
+ * A: The counter1 function uses closure with the nested function which would need to be invoked when called.
+ * 
+ * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better?
+ * 
+ * A: The counter2 code would be preferable when we want to restart the count to 0, otherwise if we want to actually
+ *    keep track of the increment throughout a longer process closure as it is shown in counter1 would be preferable.
  *
 */
 
 // counter1 code
+// function with no parameters
 function counterMaker() {
+  // declare a local counter
   let count = 0;
+  // return a function that increments the count variable
   return function counter() {
     count++;
   }
 }
-
+// function call with return value stored in counter1 variable
 const counter1 = counterMaker();
 
 // counter2 code
+// declare a global variable outside function
 let count = 0;
 
+// function defn for counter2 function
 function counter2() {
+  // returns incremented value for count
   return count++;
 }
 
