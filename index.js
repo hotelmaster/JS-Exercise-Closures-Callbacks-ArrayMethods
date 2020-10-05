@@ -34,11 +34,11 @@ processFirstItem(stringList, (str) => str + str);
 * 
 * A: counter1 has closure because when invoking the variable counter1, counterMaker will return the actual count after it increments.
 *    However, counter2 does not have closure because after calling the function the memory will be lost. The initialization of the counter
-*    variable variable should be local, yet we would invoke the nested function.
+*    variable should be local, yet we would invoke the returned function declaration.
 * 
 * 2. Which of the two uses a closure? How can you tell?
 * 
-* A: The counter1 function uses closure with the nested function which would need to be invoked when called.
+* A: The counter1 function uses closure with the returned function which would need to be invoked anytime after it is stored in counter1.
 * 
 * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better?
 * 
@@ -143,15 +143,14 @@ and returns the score at each point in the game, like so:
 
 Final Score: awayTeam - homeTeam */
 
-// what am i supposed to do with getInningScore!
-// i only needed inning function
+// does getInningScore take inning as an argument to display both teams scores?
 function scoreboard(getInningScore, inning, numInnings) {
-  // use for-loop to display the scoreboard
+  // for-loop to display the scoreboard
   for(let i = 0; i < numInnings; i++) {
-      // just to be specific about -st -nd -rd -th suffixes use a modulus in conditionals
-      if((i + 1) % 10 == 1) {console.log(`${i + 1}st inning: ${inning()} - ${inning()}`)}
-      else if((i + 1) % 10 == 2) {console.log(`${i + 1}nd inning: ${inning()} - ${inning()}`)}
-      else if((i + 1) % 10 == 3) {console.log(`${i + 1}rd inning: ${inning()} - ${inning()}`)}
+      // be specific about -st -nd -rd -th suffixes
+      if((i + 1) == 1) {console.log(`${i + 1}st inning: ${getInningScore()}`)}
+      else if((i + 1) == 2) {console.log(`${i + 1}nd inning: ${inning()} - ${inning()}`)}
+      else if((i + 1) == 3) {console.log(`${i + 1}rd inning: ${inning()} - ${inning()}`)}
       else {console.log(`${i + 1}th inning: ${inning()} - ${inning()}`)}
   }
 }
