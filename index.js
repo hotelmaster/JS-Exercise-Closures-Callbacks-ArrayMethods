@@ -18,7 +18,8 @@ function processFirstItem(stringList, callback) {
 }
 // invoke the function
 // notice that an arrow function is included as a parameter - the entire function, not only the name
-processFirstItem(stringList, (str) => str + str);
+// same for the string array if preferred
+processFirstItem(['foo', 'bar'], (str) => str + str);
 
 
 
@@ -32,18 +33,19 @@ processFirstItem(stringList, (str) => str + str);
 * 
 * 1. What is the difference between counter1 and counter2?
 * 
-* A: counter1 has closure because when invoking the variable counter1, counterMaker will return the actual count after it increments.
+* A: counter1 has closure because when invoking the variable counter1, counterMaker will return the actual count incrementing after the returnas of now.
 *    However, counter2 does not have closure because after calling the function the memory will be lost. The initialization of the counter
 *    variable should be local, yet we would invoke the returned function declaration.
 * 
 * 2. Which of the two uses a closure? How can you tell?
 * 
 * A: The counter1 function uses closure with the returned function which would need to be invoked anytime after it is stored in counter1.
+     Also, if we wanted to restart the counter, then we could call counterMaker another time and it will initialize count to 0.
 * 
 * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better?
 * 
-* A: The counter2 code would be preferable when we want to restart the count to 0, otherwise if we want to actually
-*    keep track of the increment throughout a longer process closure as it is shown in counter1 would be preferable.
+* A: The counter2 code would be preferable when we want to restart the count to 0 each time we call counter2 (since the counter is declared globally), otherwise if we
+*     want to actually keep track of the increment throughout a longer process closure as it is shown in counter1 would be preferable.
 *
 */
 
@@ -76,10 +78,8 @@ function counter2() {
 Write a function called `inning` that generates a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
 
 function inning(){
-    // generate of random number between 0 and 2
+    // generate of random number between 0 and 2 by rounding down
     let points = Math.floor(Math.random()*3);
-    // Math.round will do this: 0 --> 0.49999, 1 --> 0.50000 to 1.4999, 2 --> 1.5000
-    // Math.floor 0 --> 0.99, 1 --> 1.99, 2 --> 2.99, 3 --> not possible
     // return the score
     return points;
 }
