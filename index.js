@@ -1,5 +1,4 @@
 // ⭐️ Example Challenge START ⭐️
-
 /**
  * ### Challenge `processFirstItem`
  * 
@@ -13,10 +12,16 @@
  * Example of usage of this higher-order function:
  * Invoking `processFirstItem` passing `['foo', 'bar']` and `(str) => str + str`,
  * should return 'foofoo'.
-*/
+ */
 function processFirstItem(stringList, callback) {
-  return callback(stringList[0])
+  return callback(stringList[0]);
 }
+// invoke the function
+// notice that an arrow function is included as a parameter - the entire function, not only the name
+// same for the string array if preferred
+processFirstItem(['foo', 'bar'], (str) => str + str);
+
+
 
 // ⭐️ Example Challenge END ⭐️
 
@@ -24,30 +29,46 @@ function processFirstItem(stringList, callback) {
 ///// M V P ///////
 
 /* Task 1: `counterMaker`
- * Study the code for counter1 and counter2. Answer the questions below.
- * 
- * 1. What is the difference between counter1 and counter2?
- * 
- * 2. Which of the two uses a closure? How can you tell?
- * 
- * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
- *
+* Study the code for counter1 and counter2. Answer the questions below.
+* 
+* 1. What is the difference between counter1 and counter2?
+* 
+* A: counter1 has closure because when invoking the variable counter1, counterMaker will return the actual count incrementing after the returnas of now.
+*    However, counter2 does not have closure because after calling the function the memory will be lost. The initialization of the counter
+*    variable should be local, yet we would invoke the returned function declaration.
+* 
+* 2. Which of the two uses a closure? How can you tell?
+* 
+* A: The counter1 function uses closure with the returned function which would need to be invoked anytime after it is stored in counter1.
+     Also, if we wanted to restart the counter, then we could call counterMaker another time and it will initialize count to 0.
+* 
+* 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better?
+* 
+* A: The counter2 code would be preferable when we want to restart the count to 0 each time we call counter2 (since the counter is declared globally), otherwise if we
+*     want to actually keep track of the increment throughout a longer process closure as it is shown in counter1 would be preferable.
+*
 */
 
 // counter1 code
+// function with no parameters
 function counterMaker() {
+  // declare a local counter
   let count = 0;
+  // return a function that increments the count variable
   return function counter() {
     count++;
   }
 }
-
+// function call with return value stored in counter1 variable
 const counter1 = counterMaker();
 
 // counter2 code
+// declare a global variable outside function
 let count = 0;
 
+// function defn for counter2 function
 function counter2() {
+  // returns incremented value for count
   return count++;
 }
 
@@ -56,30 +77,48 @@ function counter2() {
 
 Write a function called `inning` that generates a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
 
-function inning(/*Code Here*/){
-
-    /*Code Here*/
-
+function inning(){
+    // generate of random number between 0 and 2 by rounding down
+    let points = Math.floor(Math.random()*3);
+    // return the score
+    return points;
 }
 
 /* Task 3: finalScore()
 
-Write a higher order function called `finalScore` that accepts the callback function `inning` (from above) and a number of innings and and returns the final score of the game in the form of an object.
+Write a higher-order function called `finalScore` that accepts the callback function `inning` (from above) and a number of innings and returns 
+the final score of the game in the form of an object.
 
 For example, 
 
-finalScore(inning, 9) might return: 
-{
-  "Home": 11,
-  "Away": 5,
-}
+finalScore(inning, 9); // expected output: {"Home": 11, "Away": 5} 
 
 */ 
 
-function finalScore(/*code Here*/){
+// parameters are a function and a number
+function finalScore(cb, numInnings){
+  // points from each inning
+  let numPoints = 0, homeScore = 0, awayScore = 0;
+  // use for-loops to produce a score for each team, separately so the random scores are different random scores
 
-  /*Code Here*/
-
+  // calculate points for home team
+  for(let i = 0; i < numInnings; i++) {
+      numPoints += cb();
+  }
+  // store the value in homeScore variable
+  homeScore = numPoints;
+  // must reset numPoints to 0, so we can start over for away team
+  numPoints = 0;
+  // calculate points for away team
+  for(let i = 0; i < numInnings; i++) {
+      numPoints += cb();
+    }
+  // store the new value in numPoints in awayScore variable
+  awayScore = numPoints;
+  // after finding the values by using the callback function, put them into an object
+  const theScore = {home: homeScore, away: awayScore};
+  // return the object containing both scores
+  return theScore;
 }
 
 /* Task 4: 
@@ -88,9 +127,9 @@ Create a function called `scoreboard` that accepts the following parameters:
 
 (1) Callback function `getInningScore`
 (2) Callback function `inning`
-(2) A number of innings
+(3) A number of innings
 
-and returns the score at each pont in the game, like so:
+and returns the score at each point in the game, like so:
 
 1st inning: awayTeam - homeTeam
 2nd inning: awayTeam - homeTeam
@@ -104,8 +143,14 @@ and returns the score at each pont in the game, like so:
 
 Final Score: awayTeam - homeTeam */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+// does getInningScore take inning as an argument to display both teams scores?
+function scoreboard(getInningScore, inning, numInnings) {
+  // for-loop to display the scoreboard
+  for(let i = 0; i < numInnings; i++) {
+      // be specific about -st -nd -rd -th suffixes
+      if((i + 1) == 1) {console.log(`${i + 1}st inning: ${getInningScore()}`)}
+      else if((i + 1) == 2) {console.log(`${i + 1}nd inning: ${inning()} - ${inning()}`)}
+      else if((i + 1) == 3) {console.log(`${i + 1}rd inning: ${inning()} - ${inning()}`)}
+      else {console.log(`${i + 1}th inning: ${inning()} - ${inning()}`)}
+  }
 }
-
-

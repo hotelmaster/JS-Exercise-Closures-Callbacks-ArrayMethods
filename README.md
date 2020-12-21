@@ -42,6 +42,12 @@ Find the file `index.js` and complete the tasks until your tests are passing.
 Edit the `ReadMe` file with your answers.
 
 1. In your own words, define closure (1-2 sentences).
+
+A: Closure is dependent on a Lexical Environment as a way to structure data which includes the connections
+between structures (e.g. nesting, identifiers). The nested structures within some amount of code will have closure
+when the intended execution can occur; when the correct nesting of structures is working under the right
+scopes (the correct lexical environment) the code will have closure.
+
 2. Study the following code, then answer the questions below.
 
 ```js
@@ -49,7 +55,7 @@ function personalDice(name){
   return function(){
       // generate random number between 1 and 6
     const newRoll = Math.floor(Math.random() * 6);
-    console.log(`${name} rolled a ${newRoll}`)
+    console.log(`${name} rolled a ${newRoll}`);
   }
 }
 
@@ -63,8 +69,19 @@ dansRoll();
 ```
 
 a. Where is closure used in this code? How can you tell?
+
+A: The personalDice function returns an anonymous function and is only invoked when the variable dansRoll or
+   zoesRoll is invoked as in the last two lines of the code; this context of whether or not to invoke the
+   function in the return is an example of closure.
+
 b. Compare and contrast calling `dansRoll` the first and second time. What is always the same? What could change?
-c. What is the lexical scope of `newRoll`? 
+
+A: When dansRoll is called, the returned function will keep the parameter name as "Dan" but the random number
+   will (in most cases) be different since it is pseudo-random.
+
+c. What is the lexical scope of `newRoll`?
+
+A: This is the scope of the function value being assigned to newRoll; this is the Math.floor function (or method).
 
 ### Task 3 - Stretch Goals
 
